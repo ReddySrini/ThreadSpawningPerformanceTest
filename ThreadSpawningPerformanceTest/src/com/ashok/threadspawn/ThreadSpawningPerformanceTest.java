@@ -59,14 +59,29 @@ public class ThreadSpawningPerformanceTest {
   }
 
   /**
-   * The main method. Creates threads in sets of 1, 2, 10, 100, 1000, 10000, 100000 and calculates the time required for spawning them.
+   * The main method. 
+   * Pass no.of thread sets separated by spaces as arguments. If no arguments are passed, then the default set of 1, 2, 10, 100, 1000, 10000, 100000 will be used 
+   * Creates threads in sets of 1, 2, 10, 100, 1000, 10000, 100000 and calculates the time required for spawning them.
    *
    * @param kr the arguments
    * @throws InterruptedException the interrupted exception
    */
-  public static void main(String[] kr) throws InterruptedException {
+  public static void main(String[] kr) throws InterruptedException {    
     int workAmount = 100000000;
-    int[] threadCount = new int[] {1, 2, 10, 100, 1000, 10000, 100000};
+    int[] threadCount;
+    if(kr!=null && kr.length>0){      
+      threadCount = new int[kr.length];
+      try {
+        for(int i=0;i<kr.length;i++){
+          threadCount[i] = Integer.parseInt(kr[i]);
+        }
+      } catch (Exception e) {
+        threadCount = new int[] {1, 2, 10, 100, 1000, 10000, 100000};
+      }
+    }
+    else{
+      threadCount = new int[] {1, 2, 10, 100, 1000, 10000, 100000};
+    }
     int trialCount = 2;
     long[][] time = new long[threadCount.length][trialCount];
     for (int j = 0; j < trialCount; j++) {
